@@ -51,3 +51,23 @@ export const DAFTAR_NASABAH: Nasabah[] = [
   { id: "NSB-0706", nama: "Fitri Handayani", telepon: "0838-1212-3434", alamat: "Jl. Anggrek No. 3, Bandung", saldo: 0, totalSetoran: 0, status: "Tidak Aktif" },
   { id: "NSB-0707", nama: "Dewi Anggraini", telepon: "0896-5656-7878", alamat: "Perum Griya Asri No. 14, Depok", saldo: 510000, totalSetoran: 156.9, status: "Aktif" },
 ];
+export const DAFTAR_SETORAN: Setoran[] = [
+  ...SETORAN_TERBARU,
+  { id: "STR-9926", nasabahId: "NSB-0701", nasabah: "Agus Pratama", jenis: "KERTAS/KARDUS", berat: 15.0, poin: 1500, status: "Berhasil", tanggal: "22 Okt 2024" },
+  { id: "STR-9927", nasabahId: "NSB-0702", nasabah: "Lina Marlina", jenis: "PLASTIK PET", berat: 6.4, poin: 640, status: "Berhasil", tanggal: "22 Okt 2024" },
+  { id: "STR-9928", nasabahId: "NSB-0704", nasabah: "Rina Susanti", jenis: "LOGAM/BESI", berat: 9.8, poin: 5880, status: "Verifikasi", tanggal: "21 Okt 2024" },
+  { id: "STR-9929", nasabahId: "NSB-0705", nasabah: "Yoga Permana", jenis: "LAINNYA", berat: 3.2, poin: 640, status: "Ditolak", tanggal: "21 Okt 2024" },
+  { id: "STR-9930", nasabahId: "NSB-0707", nasabah: "Dewi Anggraini", jenis: "PLASTIK PET", berat: 20.0, poin: 2000, status: "Berhasil", tanggal: "20 Okt 2024" },
+  { id: "STR-9931", nasabahId: "NSB-0421", nasabah: "Siti Aminah", jenis: "KERTAS/KARDUS", berat: 11.0, poin: 1100, status: "Berhasil", tanggal: "19 Okt 2024" },
+  { id: "STR-9932", nasabahId: "NSB-0489", nasabah: "Maya Lestari", jenis: "LOGAM/BESI", berat: 4.5, poin: 2700, status: "Berhasil", tanggal: "18 Okt 2024" },
+];
+export const NIK_TERDAFTAR = ["3578012345670001"];
+
+export const WILAYAH: Record<string, string[]> = {
+  "Jakarta": ["Menteng", "Tebet", "Kebayoran Baru", "Cengkareng"],
+  "Bandung": ["Coblong", "Cicendo", "Lengkong", "Sukajadi"],
+  "Depok": ["Beji", "Cimanggis", "Sukmajaya", "Pancoran Mas"],
+  "Bekasi": ["Bekasi Barat", "Bekasi Selatan", "Jatiasih", "Pondok Gede"],
+  "Bogor": ["Bogor Tengah", "Bogor Barat", "Tanah Sareal", "Cibinong"],
+  "Tangerang": ["Ciledug", "Karawaci", "Cipondoh", "Pinang"],
+};

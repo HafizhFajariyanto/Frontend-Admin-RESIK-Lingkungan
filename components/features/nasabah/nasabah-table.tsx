@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Edit, Eye, Plus, Search } from "lucide-react";
 import Avatar from "@/components/ui/avatar";
@@ -41,10 +42,13 @@ export default function NasabahTable() {
         </div>
         <span className="text-xs text-gray-600">Status: Semua</span>
         <span className="text-xs text-gray-600">Periode: 30 Hari Terakhir</span>
-        <button className="flex items-center gap-2 rounded-lg bg-forest px-4 py-2.5 text-xs font-semibold text-white">
+        <Link
+        href="/nasabah/tambah"
+          className="flex items-center gap-2 rounded-lg bg-forest px-4 py-2.5 text-xs font-semibold text-white"
+            >
           <Plus size={14} />
           Tambah Nasabah
-        </button>
+        </Link>
       </div>
 
       <div className="overflow-x-auto rounded-xl bg-white/60">

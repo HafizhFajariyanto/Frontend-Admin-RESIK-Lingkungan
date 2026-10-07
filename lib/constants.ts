@@ -15,4 +15,5 @@ export const PAGE_META: Record<string, { section: string; crumb: string; title: 
   "/aktivitas": { section: "Aktivitas Nasabah", crumb: "Overview", title: "Aktivitas Nasabah" },
   "/laporan": { section: "Laporan", crumb: "Overview", title: "Laporan" },
   "/profil": { section: "Profil Admin", crumb: "Edit", title: "Profil Admin" },
+  "/nasabah/tambah": { section: "Data Nasabah", crumb: "Tambah", title: "Tambah Nasabah" },
 };

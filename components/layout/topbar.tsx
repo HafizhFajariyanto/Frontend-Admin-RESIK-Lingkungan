@@ -8,7 +8,9 @@ import Breadcrumb from "./breadcrumb";
 
 export default function Topbar() {
   const pathname = usePathname();
-  const key = Object.keys(PAGE_META).find((k) => pathname.startsWith(k));
+  const key = Object.keys(PAGE_META)
+  .filter((k) => pathname.startsWith(k))
+  .sort((a, b) => b.length - a.length)[0];
   const meta = key ? PAGE_META[key] : { section: "RESIK", crumb: "Admin", title: "RESIK Admin" };
 
   return (
