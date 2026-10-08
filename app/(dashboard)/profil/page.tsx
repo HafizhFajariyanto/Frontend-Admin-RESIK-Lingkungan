@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, ChangeEvent } from "react";
 import {
   Camera,
   CheckCircle2,
@@ -17,6 +17,26 @@ export default function ProfilAdminPage() {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  // State & Ref untuk Upload Foto
+  const [avatarSrc, setAvatarSrc] = useState(
+    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop"
+  );
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Trigger klik input file saat tombol kamera diklik
+  const handleCameraButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  // Handler saat file gambar dipilih
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setAvatarSrc(previewUrl);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -37,11 +57,24 @@ export default function ProfilAdminPage() {
         <div className="flex items-center gap-5">
           <div className="relative">
             <img
-              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop"
+              src={avatarSrc}
               alt="Andi Wijaya"
               className="w-20 h-20 rounded-2xl object-cover"
             />
-            <button className="absolute -bottom-1 -right-1 p-2 bg-[#064e3b] text-white rounded-xl shadow-md hover:bg-[#04382a] transition-colors cursor-pointer">
+            {/* Input File Tersembunyi */}
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              accept="image/*"
+              className="hidden"
+            />
+            {/* Tombol Kamera */}
+            <button
+              type="button"
+              onClick={handleCameraButtonClick}
+              className="absolute -bottom-1 -right-1 p-2 bg-[#064e3b] text-white rounded-xl shadow-md hover:bg-[#04382a] transition-colors cursor-pointer"
+            >
               <Camera className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -50,7 +83,7 @@ export default function ProfilAdminPage() {
             <div className="flex items-center gap-2">
               <h2 className="text-lg font-bold text-gray-900">Andi Wijaya</h2>
               <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 uppercase tracking-wider">
-                SUPER ADMIN
+                ADMIN
               </span>
               <span className="flex items-center gap-1 text-[11px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
                 <CheckCircle2 className="w-3 h-3" /> Akun Terverifikasi

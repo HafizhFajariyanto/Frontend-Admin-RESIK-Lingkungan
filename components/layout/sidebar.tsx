@@ -76,7 +76,7 @@ export default function Sidebar() {
           </div>
           <div>
             <p className="text-xs font-bold text-gray-800">Andi Wijaya</p>
-            <p className="text-[10px] text-gray-500">Super Admin</p>
+            <p className="text-[10px] text-gray-500">Admin</p>
           </div>
         </Link>
 

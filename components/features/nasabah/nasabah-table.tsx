@@ -43,9 +43,9 @@ export default function NasabahTable() {
         <span className="text-xs text-gray-600">Status: Semua</span>
         <span className="text-xs text-gray-600">Periode: 30 Hari Terakhir</span>
         <Link
-        href="/nasabah/tambah"
+          href="/nasabah/tambah"
           className="flex items-center gap-2 rounded-lg bg-forest px-4 py-2.5 text-xs font-semibold text-white"
-            >
+        >
           <Plus size={14} />
           Tambah Nasabah
         </Link>
@@ -92,8 +92,20 @@ export default function NasabahTable() {
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3 text-gray-600">
-                    <button aria-label="Lihat detail"><Eye size={15} /></button>
-                    <button aria-label="Edit"><Edit size={15} /></button>
+                    <Link 
+                      href={`/nasabah/detail/${n.id}`} 
+                      className="hover:text-forest transition-colors"
+                      aria-label="Lihat detail"
+                    >
+                      <Eye size={15} />
+                    </Link>
+                    <Link 
+                      href={`/nasabah/edit/${n.id}`} 
+                      className="hover:text-forest transition-colors"
+                      aria-label="Edit"
+                    >
+                      <Edit size={15} />
+                    </Link>
                   </div>
                 </td>
               </tr>

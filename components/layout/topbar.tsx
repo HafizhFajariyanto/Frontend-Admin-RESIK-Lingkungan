@@ -5,7 +5,7 @@ import { Bell, Search } from "lucide-react";
 
 export default function Topbar() {
   return (
-    <header className="flex h-16 items-center justify-between border-b border-gray-100 bg-[#f4ecd8]/60 px-6">
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-gray-100 bg-[#f4ecd8]/80 backdrop-blur-md px-6">
       {/* Search Bar */}
       <div className="relative w-72">
         <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
@@ -35,7 +35,7 @@ export default function Topbar() {
         >
           <div className="text-right">
             <p className="text-xs font-bold text-gray-800">Andi Wijaya</p>
-            <p className="text-[10px] text-gray-500">Super Admin</p>
+            <p className="text-[10px] text-gray-500">Admin</p>
           </div>
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#025E43] font-bold text-white text-xs">
             AW
