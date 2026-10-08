@@ -7,16 +7,27 @@ import {
   Plus,
   Eye,
   Edit,
-  Calendar,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+
+const BULAN: Record<string, string> = {
+  Jan: "01", Feb: "02", Mar: "03", Apr: "04", Mei: "05", Jun: "06",
+  Jul: "07", Agu: "08", Sep: "09", Okt: "10", Nov: "11", Des: "12",
+};
+
+// "24 Okt 2023, 10:15" -> "2023-10-24"
+function tanggalToISO(tanggal: string) {
+  const [d, b, y] = tanggal.split(",")[0].trim().split(" ");
+  return `${y}-${BULAN[b] ?? "01"}-${d.padStart(2, "0")}`;
+}
 
 export default function KelolaSetoranPage() {
   // State Filter & Search
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedJenis, setSelectedJenis] = useState("Semua");
   const [selectedStatus, setSelectedStatus] = useState("Semua");
+  const [selectedDate, setSelectedDate] = useState(""); // format YYYY-MM-DD
 
   // State Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,7 +55,7 @@ export default function KelolaSetoranPage() {
       nsbId: "NSB-0512",
       avatar:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=100",
-      jenis: "KERTAS",
+      jenis: "KARDUS",
       jenisBg: "bg-orange-100 text-orange-600",
       berat: "5.2 kg",
       poin: "520 pts",
@@ -57,8 +68,8 @@ export default function KelolaSetoranPage() {
       nsbId: "NSB-0489",
       avatar:
         "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100",
-      jenis: "LOGAM",
-      jenisBg: "bg-slate-200 text-slate-700",
+      jenis: "MINYAK JELANTAH",
+      jenisBg: "bg-amber-100 text-amber-700",
       berat: "2.0 kg",
       poin: "800 pts",
       tanggal: "23 Okt 2023, 09:45",
@@ -70,8 +81,8 @@ export default function KelolaSetoranPage() {
       nsbId: "NSB-0318",
       avatar:
         "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100",
-      jenis: "KACA",
-      jenisBg: "bg-purple-100 text-purple-600",
+      jenis: "KARDUS",
+      jenisBg: "bg-orange-100 text-orange-600",
       berat: "3.8 kg",
       poin: "152 pts",
       tanggal: "23 Okt 2023, 14:20",
@@ -98,7 +109,7 @@ export default function KelolaSetoranPage() {
       nsbId: "NSB-0101",
       avatar:
         "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100",
-      jenis: "KERTAS",
+      jenis: "KARDUS",
       jenisBg: "bg-orange-100 text-orange-600",
       berat: "8.0 kg",
       poin: "800 pts",
@@ -124,8 +135,8 @@ export default function KelolaSetoranPage() {
       nsbId: "NSB-0312",
       avatar:
         "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=100",
-      jenis: "LOGAM",
-      jenisBg: "bg-slate-200 text-slate-700",
+      jenis: "MINYAK JELANTAH",
+      jenisBg: "bg-amber-100 text-amber-700",
       berat: "4.5 kg",
       poin: "1,800 pts",
       tanggal: "21 Okt 2023, 15:45",
@@ -137,8 +148,8 @@ export default function KelolaSetoranPage() {
       nsbId: "NSB-0419",
       avatar:
         "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=100",
-      jenis: "KACA",
-      jenisBg: "bg-purple-100 text-purple-600",
+      jenis: "KARDUS",
+      jenisBg: "bg-orange-100 text-orange-600",
       berat: "2.5 kg",
       poin: "100 pts",
       tanggal: "20 Okt 2023, 11:20",
@@ -165,7 +176,7 @@ export default function KelolaSetoranPage() {
       nsbId: "NSB-0601",
       avatar:
         "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=100",
-      jenis: "KERTAS",
+      jenis: "KARDUS",
       jenisBg: "bg-orange-100 text-orange-600",
       berat: "3.0 kg",
       poin: "300 pts",
@@ -178,8 +189,8 @@ export default function KelolaSetoranPage() {
       nsbId: "NSB-0710",
       avatar:
         "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100",
-      jenis: "LOGAM",
-      jenisBg: "bg-slate-200 text-slate-700",
+      jenis: "MINYAK JELANTAH",
+      jenisBg: "bg-amber-100 text-amber-700",
       berat: "1.2 kg",
       poin: "480 pts",
       tanggal: "19 Okt 2023, 10:50",
@@ -202,9 +213,13 @@ export default function KelolaSetoranPage() {
         selectedStatus === "Semua" ||
         item.status.toUpperCase() === selectedStatus.toUpperCase();
 
-      return matchesSearch && matchesJenis && matchesStatus;
+      const matchesDate =
+        !selectedDate || tanggalToISO(item.tanggal) === selectedDate;
+
+      return matchesSearch && matchesJenis && matchesStatus && matchesDate;
     });
-  }, [searchQuery, selectedJenis, selectedStatus]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery, selectedJenis, selectedStatus, selectedDate]);
 
   // Total Halaman Berdasarkan Data Hasil Filter
   const totalPages = Math.ceil(filteredData.length / itemsPerPage) || 1;
@@ -270,9 +285,29 @@ export default function KelolaSetoranPage() {
               />
             </div>
 
-            <button className="px-3 py-2 bg-[#E5D7B3]/60 rounded-xl font-semibold text-gray-700 flex items-center gap-2 hover:bg-[#E5D7B3]">
-              Pilih Tanggal <Calendar className="w-3.5 h-3.5" />
-            </button>
+            <div className="flex items-center gap-1">
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={(e) => {
+                  setSelectedDate(e.target.value);
+                  setCurrentPage(1);
+                }}
+                aria-label="Pilih tanggal"
+                className="px-3 py-2 bg-[#E5D7B3]/60 rounded-xl font-semibold text-gray-700 focus:outline-none cursor-pointer hover:bg-[#E5D7B3]"
+              />
+              {selectedDate && (
+                <button
+                  onClick={() => {
+                    setSelectedDate("");
+                    setCurrentPage(1);
+                  }}
+                  className="px-2 py-2 text-[11px] font-bold text-rose-600 hover:underline"
+                >
+                  Reset
+                </button>
+              )}
+            </div>
 
             <select
               value={selectedJenis}
@@ -281,9 +316,8 @@ export default function KelolaSetoranPage() {
             >
               <option value="Semua">Jenis: Semua</option>
               <option value="PLASTIK">Jenis: Plastik</option>
-              <option value="KERTAS">Jenis: Kertas</option>
-              <option value="LOGAM">Jenis: Logam</option>
-              <option value="KACA">Jenis: Kaca</option>
+              <option value="KARDUS">Jenis: Kardus</option>
+              <option value="MINYAK JELANTAH">Jenis: Minyak Jelantah</option>
             </select>
 
             <select
@@ -330,6 +364,7 @@ export default function KelolaSetoranPage() {
                     </td>
                     <td className="p-3.5">
                       <div className="flex items-center gap-2.5">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={row.avatar}
                           alt={row.nasabah}
@@ -378,12 +413,20 @@ export default function KelolaSetoranPage() {
                     </td>
                     <td className="p-3.5">
                       <div className="flex items-center justify-center gap-1">
-                        <button className="p-1 bg-white rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50">
+                        <Link
+                          href={`/setoran/detail/${row.id}`}
+                          aria-label="Lihat detail"
+                          className="p-1 bg-white rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50 hover:text-[#044E3A]"
+                        >
                           <Eye className="w-3.5 h-3.5" />
-                        </button>
-                        <button className="p-1 bg-white rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50">
+                        </Link>
+                        <Link
+                          href={`/setoran/edit/${row.id}`}
+                          aria-label="Edit"
+                          className="p-1 bg-white rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50 hover:text-[#044E3A]"
+                        >
                           <Edit className="w-3.5 h-3.5" />
-                        </button>
+                        </Link>
                       </div>
                     </td>
                   </tr>

@@ -1,20 +1,19 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {
   User,
-  Trash2,
   Plus,
   UploadCloud,
   Edit2,
   Calendar,
   Info,
   CheckCircle2,
-  Wine,
   Box,
   Package,
+  CupSoda,
+  Droplet,
   X,
   Loader2,
   Check,
@@ -26,6 +25,40 @@ interface TrashItem {
   weight: number;
   pricePerKg: number;
   points: number;
+}
+
+const CATEGORIES = [
+  {
+    key: "plastik",
+    label: "Plastik",
+    icon: CupSoda,
+    iconBg: "bg-blue-500",
+    activeText: "text-blue-600",
+  },
+  {
+    key: "kardus",
+    label: "Kardus",
+    icon: Box,
+    iconBg: "bg-orange-500",
+    activeText: "text-orange-600",
+  },
+  {
+    key: "minyak",
+    label: "Minyak Jelantah",
+    icon: Droplet,
+    iconBg: "bg-cyan-500",
+    activeText: "text-cyan-600",
+  },
+] as const;
+
+function itemIconStyle(type: string) {
+  if (type.startsWith("Kardus")) {
+    return { wrap: "bg-orange-50 text-orange-500", Icon: Box };
+  }
+  if (type.startsWith("Minyak")) {
+    return { wrap: "bg-cyan-50 text-cyan-500", Icon: Droplet };
+  }
+  return { wrap: "bg-blue-50 text-blue-500", Icon: CupSoda };
 }
 
 export default function TambahSetoranForm() {
@@ -240,45 +273,31 @@ export default function TambahSetoranForm() {
             </div>
 
             {/* Kategori Selector */}
-            <div className="flex gap-4">
-              <button
-                type="button"
-                onClick={() => setSelectedCategory("plastik")}
-                className={`flex-1 flex flex-col items-center justify-center p-3 rounded-xl border transition-all ${
-                  selectedCategory === "plastik"
-                    ? "border-blue-500 bg-blue-50/30 text-blue-600 font-medium"
-                    : "border-gray-200 bg-gray-50 text-gray-600 hover:bg-gray-100"
-                }`}
-              >
-                <Wine className="w-6 h-6 mb-1 text-blue-500" />
-                <span className="text-xs">Plastik</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setSelectedCategory("kardus")}
-                className={`flex-1 flex flex-col items-center justify-center p-3 rounded-xl border transition-all ${
-                  selectedCategory === "kardus"
-                    ? "border-orange-500 bg-orange-50/30 text-orange-600 font-medium"
-                    : "border-gray-200 bg-gray-50 text-gray-600 hover:bg-gray-100"
-                }`}
-              >
-                <Box className="w-6 h-6 mb-1 text-orange-500" />
-                <span className="text-xs">Kardus</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setSelectedCategory("minyak")}
-                className={`flex-1 flex flex-col items-center justify-center p-3 rounded-xl border transition-all ${
-                  selectedCategory === "minyak"
-                    ? "border-cyan-500 bg-cyan-50/30 text-cyan-600 font-medium"
-                    : "border-gray-200 bg-gray-50 text-gray-600 hover:bg-gray-100"
-                }`}
-              >
-                <Wine className="w-6 h-6 mb-1 text-cyan-500" />
-                <span className="text-xs">Minyak Jelantah</span>
-              </button>
+            <div className="grid grid-cols-3 gap-4">
+              {CATEGORIES.map(
+                ({ key, label, icon: Icon, iconBg, activeText }) => {
+                  const active = selectedCategory === key;
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => setSelectedCategory(key)}
+                      className={`flex flex-col items-center justify-center gap-3 rounded-xl px-4 py-5 text-sm font-semibold transition-all ${
+                        active
+                          ? `border-2 border-blue-500 bg-white shadow-[0_4px_14px_rgba(59,130,246,0.25)] ${activeText}`
+                          : "border border-gray-200 bg-gray-50 text-gray-700 shadow-sm hover:bg-white hover:shadow-md"
+                      }`}
+                    >
+                      <span
+                        className={`flex h-11 w-11 items-center justify-center rounded-lg text-white shadow-md ${iconBg}`}
+                      >
+                        <Icon className="h-5 w-5" />
+                      </span>
+                      {label}
+                    </button>
+                  );
+                },
+              )}
             </div>
 
             {/* Input Row */}
@@ -360,25 +379,32 @@ export default function TambahSetoranForm() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
-                  {items.map((item) => (
-                    <tr key={item.id} className="text-gray-700">
-                      <td className="py-3 px-4 flex items-center gap-2">
-                        <span className="w-6 h-6 rounded bg-blue-50 text-blue-500 flex items-center justify-center">
-                          <Wine className="w-3.5 h-3.5" />
-                        </span>
-                        <span>{item.type}</span>
-                      </td>
-                      <td className="py-3 px-4">{item.weight.toFixed(1)} kg</td>
-                      <td className="py-3 px-4 text-emerald-600 font-semibold">
-                        +{item.points} pts
-                      </td>
-                      <td className="py-3 px-4 text-center">
-                        <button className="text-gray-400 hover:text-gray-600">
-                          <Edit2 className="w-3.5 h-3.5" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                  {items.map((item) => {
+                    const { wrap, Icon } = itemIconStyle(item.type);
+                    return (
+                      <tr key={item.id} className="text-gray-700">
+                        <td className="py-3 px-4 flex items-center gap-2">
+                          <span
+                            className={`w-6 h-6 rounded flex items-center justify-center ${wrap}`}
+                          >
+                            <Icon className="w-3.5 h-3.5" />
+                          </span>
+                          <span>{item.type}</span>
+                        </td>
+                        <td className="py-3 px-4">
+                          {item.weight.toFixed(1)} kg
+                        </td>
+                        <td className="py-3 px-4 text-emerald-600 font-semibold">
+                          +{item.points} pts
+                        </td>
+                        <td className="py-3 px-4 text-center">
+                          <button className="text-gray-400 hover:text-gray-600">
+                            <Edit2 className="w-3.5 h-3.5" />
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -471,6 +497,7 @@ export default function TambahSetoranForm() {
                 <div className="relative border border-gray-200 rounded-xl p-3 bg-gray-50 flex items-center justify-between">
                   <div className="flex items-center gap-3 overflow-hidden">
                     <div className="w-16 h-16 rounded-lg overflow-hidden border border-gray-200 shrink-0 relative bg-white">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={imagePreview}
                         alt="Bukti Timbangan"

@@ -1,5 +1,5 @@
 import type { Nasabah } from "@/types/nasabah";
-import type { Setoran } from "@/types/setoran";
+import type { JenisSampah, Setoran } from "@/types/setoran";
 
 export const SETORAN_BULANAN = [
   { label: "Jan", kg: 450 }, { label: "Feb", kg: 620 }, { label: "Mar", kg: 580 },
@@ -71,3 +71,24 @@ export const WILAYAH: Record<string, string[]> = {
   "Bogor": ["Bogor Tengah", "Bogor Barat", "Tanah Sareal", "Cibinong"],
   "Tangerang": ["Ciledug", "Karawaci", "Cipondoh", "Pinang"],
 };
+export const HARGA_PER_KG: Record<JenisSampah, number> = {
+  "PLASTIK PET": 3000,
+  "KERTAS/KARDUS": 2000,
+  "LOGAM/BESI": 6000,
+  LAINNYA: 1500,
+};
+
+export const POIN_PER_KG: Record<JenisSampah, number> = {
+  "PLASTIK PET": 100,
+  "KERTAS/KARDUS": 100,
+  "LOGAM/BESI": 600,
+  LAINNYA: 200,
+};
+
+export function getSetoranById(id: string) {
+  return DAFTAR_SETORAN.find((s) => s.id === id);
+}
+
+export function getNasabahById(id: string) {
+  return DAFTAR_NASABAH.find((n) => n.id === id);
+}

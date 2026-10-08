@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link"; // 1. Impor Link dari next/link
+import Link from "next/link";
 import {
   ChevronLeft,
   ChevronRight,
@@ -116,10 +116,9 @@ export default function SetoranTable() {
           ))}
         </select>
 
-        {/* 2. Tombol dibungkus dengan Link mengarah ke /setoran/tambah */}
         <Link
           href="/setoran/tambah"
-          className="flex items-center gap-2 rounded-lg bg-forest px-4 py-2.5 text-xs font-semibold text-white hover:opacity-90 transition-opacity"
+          className="flex items-center gap-2 rounded-lg bg-forest px-4 py-2.5 text-xs font-semibold text-white transition-opacity hover:opacity-90"
         >
           <Plus size={14} />
           Tambah Setoran
@@ -184,12 +183,20 @@ export default function SetoranTable() {
                 </td>
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3 text-gray-600">
-                    <button aria-label="Lihat detail">
+                    <Link
+                      href={`/setoran/detail/${s.id}`}
+                      aria-label="Lihat detail"
+                      className="hover:text-forest"
+                    >
                       <Eye size={15} />
-                    </button>
-                    <button aria-label="Edit">
+                    </Link>
+                    <Link
+                      href={`/setoran/edit/${s.id}`}
+                      aria-label="Edit"
+                      className="hover:text-forest"
+                    >
                       <Edit size={15} />
-                    </button>
+                    </Link>
                   </div>
                 </td>
               </tr>
